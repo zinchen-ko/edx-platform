@@ -40,7 +40,7 @@ describe('HTMLEditingDescriptor', function() {
         {getContent() { return 'from visual editor with /c4x/foo/bar/asset/image.jpg'; }};
       spyOn(this.descriptor, 'getVisualEditor').and.callFake(() => visualEditorStub);
 
-      var self = this;
+       var self = this;
       jasmine.waitUntil(function() {
         return !!self.descriptor.starting_content;
       }, 10000).then(function() {

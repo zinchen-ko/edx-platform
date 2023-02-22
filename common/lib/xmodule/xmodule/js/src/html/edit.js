@@ -98,6 +98,7 @@
 
         var tinyMceConfig = {
           script_url: baseUrl + "js/vendor/tinymce/js/tinymce/tinymce.full.min.js",
+
           font_formats: _getFonts(),
           theme: "silver",
           skin: "studio-tmce5",
@@ -1390,7 +1391,7 @@
       haven't dirtied the Editor. Store the raw content so we can compare it later.
        */
       this.starting_content = visualEditor.getContent({
-        format: "raw",
+        format: "text",
         no_events: 1
       });
       return visualEditor.focus();
@@ -1410,7 +1411,7 @@
       if (this.editor_choice === 'visual') {
         visualEditor = this.getVisualEditor();
         raw_content = visualEditor.getContent({
-          format: "raw",
+          format: "text",
           no_events: 1
         });
         if (this.starting_content !== raw_content) {

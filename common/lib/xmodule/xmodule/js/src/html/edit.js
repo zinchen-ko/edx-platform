@@ -1270,7 +1270,7 @@
       ed.on('EditLink', this.editLink);
       ed.on('ShowCodeEditor', this.showCodeEditor);
       ed.on('SaveCodeEditor', this.saveCodeEditor);
-       $(".action-cancel").on('click', this.cancelButton);
+      $(".action-cancel").on('click', this.cancelButton);
 
       this.imageModal.on('closeModal', this.closeImageModal);
       return this.imageModal.on('submitForm', this.editImageSubmit);

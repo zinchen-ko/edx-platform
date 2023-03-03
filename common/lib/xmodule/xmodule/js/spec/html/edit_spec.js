@@ -10,8 +10,6 @@ describe('HTMLEditingDescriptor', function() {
       const visualEditorStub =
         {getContent() { return 'from visual editor'; }};
       spyOn(this.descriptor, 'getVisualEditor').and.callFake(() => visualEditorStub);
-      const { data } = this.descriptor.save();
-      expect(data).toEqual('from visual editor');
 
       // It takes a while for the TinyMCE V5.x to initialize, so let's wait until the
       // starting_content becomes available before we test the save() method.
@@ -28,13 +26,20 @@ describe('HTMLEditingDescriptor', function() {
       const visualEditorStub =
         {getContent() { return 'original visual text' }};
       spyOn(this.descriptor, 'getVisualEditor').and.callFake(() => visualEditorStub);
-      const { data } = this.descriptor.save();
-      expect(data).toEqual('raw text');
+
+      var self = this;
+      jasmine.waitUntil(function() {
+        return !!self.descriptor.starting_content;
+      }, 10000).then(function() {
+        const { data } = self.descriptor.save();
+        expect(data).toEqual('raw text');
+      }).always(done);
     });
     it('Performs link rewriting for static assets when saving', function(done) {
       const visualEditorStub =
         {getContent() { return 'from visual editor with /c4x/foo/bar/asset/image.jpg'; }};
-      spyOn(this.descriptor, 'getVisualEditor').and.callFake(() => visualEditorStub);
+      spyOn(this.descriptor, 'getVisualEditor').and.callFake(() => visualEditorStub);\
+
       var self = this;
       jasmine.waitUntil(function() {
         return !!self.descriptor.starting_content;
@@ -42,6 +47,7 @@ describe('HTMLEditingDescriptor', function() {
         const { data } = self.descriptor.save();
         expect(data).toEqual('from visual editor with /static/image.jpg');
       }).always(done);
+
     });
     it('When showing visual editor links are rewritten to c4x format', function() {
       const visualEditorStub = {
